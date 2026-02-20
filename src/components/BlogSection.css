@@ -292,7 +292,7 @@ html, body {
 @media (max-width: 768px) {
     .blog-section {
         padding: 40px 12px;
-        padding-bottom: 180px;
+        padding-bottom: 200px;
     }
 
     .blog-grid {
@@ -324,29 +324,39 @@ html, body {
         font-size: 15px;
     }
     
-    /* On mobile, allow natural scrolling but keep snap */
+    /* Mobile: improve article viewing and prevent page scroll during swipe */
     .snap-container {
-        scroll-snap-type: y proximity;
         min-height: auto;
-        padding-bottom: max(45vh, 350px);
-        margin-bottom: 80px;
+        /* Increased bottom padding to prevent footer overlap */
+        padding-bottom: max(50vh, 400px);
+        margin-bottom: 100px;
+        /* Disable browser scroll snap on mobile for custom touch handling */
+        scroll-snap-type: none;
+        /* Prevent momentum scrolling interference */
+        -webkit-overflow-scrolling: auto;
+        /* Important: allow our touch handlers to work */
+        touch-action: pan-y;
     }
     
     .snap-item {
         scroll-snap-stop: normal;
-        min-height: auto;
-        padding: 16px 8px;
+        /* Auto height on mobile for better content display */
+        min-height: calc(90vh - var(--header-height, 80px));
+        padding: 20px 12px;
+        /* Faster transitions on mobile */
+        transition: transform 500ms cubic-bezier(.2,.9,.2,1), 
+                    opacity 400ms ease;
     }
 
     .snap-container::after {
-        height: 80px;
+        height: 100px;
     }
 }
 
 @media (max-width: 640px) {
     .blog-section {
         padding: 32px 8px;
-        padding-bottom: 150px;
+        padding-bottom: 180px;
     }
 
     .section-title {
@@ -375,19 +385,24 @@ html, body {
     }
 
     .snap-container {
-        padding-bottom: max(42vh, 320px);
-        margin-bottom: 70px;
+        padding-bottom: max(48vh, 380px);
+        margin-bottom: 90px;
+    }
+
+    .snap-item {
+        min-height: calc(85vh - var(--header-height, 80px));
+        padding: 18px 10px;
     }
 
     .snap-container::after {
-        height: 70px;
+        height: 90px;
     }
 }
 
 @media (max-width: 480px) {
     .blog-section {
         padding: 24px 6px;
-        padding-bottom: 120px;
+        padding-bottom: 160px;
     }
 
     .section-header {
@@ -406,16 +421,17 @@ html, body {
     }
 
     .snap-item {
-        padding: 12px 6px;
+        padding: 16px 8px;
+        min-height: calc(80vh - var(--header-height, 80px));
     }
 
     .snap-container {
-        padding-bottom: max(40vh, 300px);
-        margin-bottom: 60px;
+        padding-bottom: max(45vh, 360px);
+        margin-bottom: 80px;
     }
 
     .snap-container::after {
-        height: 60px;
+        height: 80px;
     }
 }
 

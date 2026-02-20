@@ -282,6 +282,7 @@ const BlogSection = () => {
         let wheelTimeout = null;
         let touchStartY = 0;
         let touchStartX = 0;
+        let touchStartTime = 0;
 
         const changeArticle = (direction) => {
             if (isAnimating) return;
@@ -292,13 +293,19 @@ const BlogSection = () => {
                 return Math.max(0, prev - 1);
             });
             
-            // Lock for 800ms to prevent rapid changes
-            setTimeout(() => { isAnimating = false; }, 800);
+            // Lock for 600ms to prevent rapid changes (reduced for mobile responsiveness)
+            setTimeout(() => { isAnimating = false; }, 600);
         };
 
         const onWheel = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            // Only prevent default when inside the snap container
+            const rect = container.getBoundingClientRect();
+            const isInView = rect.top <= window.innerHeight && rect.bottom >= 0;
+            
+            if (isInView) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             
             if (isAnimating) return;
             
@@ -318,19 +325,36 @@ const BlogSection = () => {
             // Clear existing timeout
             if (wheelTimeout) clearTimeout(wheelTimeout);
             
-            // Wait for scroll to settle (50ms of no scrolling)
+            // Wait for scroll to settle (30ms for better mobile response)
             wheelTimeout = setTimeout(() => {
                 // Only change if accumulated delta is significant
-                if (Math.abs(accumulatedDelta) > 20) {
+                if (Math.abs(accumulatedDelta) > 15) {
                     changeArticle(accumulatedDelta > 0 ? 1 : -1);
                 }
                 accumulatedDelta = 0;
-            }, 50);
+            }, 30);
         };
 
         const onTouchStart = (e) => { 
             touchStartY = e.touches ? e.touches[0].clientY : e.clientY;
             touchStartX = e.touches ? e.touches[0].clientX : e.clientX;
+            touchStartTime = Date.now();
+        };
+        
+        const onTouchMove = (e) => {
+            // Prevent page scroll while swiping on articles
+            const target = e.target;
+            const isScrollable = target.closest('.post-content-scroll');
+            
+            if (!isScrollable) {
+                const moveY = e.touches ? e.touches[0].clientY : e.clientY;
+                const diffY = Math.abs(touchStartY - moveY);
+                
+                // If vertical swipe is more than 10px, prevent page scroll
+                if (diffY > 10) {
+                    e.preventDefault();
+                }
+            }
         };
         
         const onTouchEnd = (e) => {
@@ -340,16 +364,20 @@ const BlogSection = () => {
             const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
             const diffY = touchStartY - endY;
             const diffX = touchStartX - endX;
+            const touchDuration = Date.now() - touchStartTime;
+            
+            // Calculate velocity for better swipe detection
+            const velocity = Math.sqrt(diffY * diffY + diffX * diffX) / touchDuration;
             
             // Determine if horizontal or vertical swipe was dominant
             if (Math.abs(diffX) > Math.abs(diffY)) {
                 // Horizontal swipe
-                if (Math.abs(diffX) < 50) return;
+                if (Math.abs(diffX) < 40) return;
                 // Right swipe (diffX negative) = previous, Left swipe (diffX positive) = next
                 changeArticle(diffX > 0 ? 1 : -1);
             } else {
-                // Vertical swipe
-                if (Math.abs(diffY) < 50) return;
+                // Vertical swipe - reduced threshold for mobile
+                if (Math.abs(diffY) < 40 && velocity < 0.5) return;
                 changeArticle(diffY > 0 ? 1 : -1);
             }
         };
@@ -369,12 +397,14 @@ const BlogSection = () => {
 
         container.addEventListener('wheel', onWheel, { passive: false });
         container.addEventListener('touchstart', onTouchStart, { passive: true });
+        container.addEventListener('touchmove', onTouchMove, { passive: false });
         container.addEventListener('touchend', onTouchEnd, { passive: true });
         window.addEventListener('keydown', onKeyDown);
 
         return () => {
             container.removeEventListener('wheel', onWheel);
             container.removeEventListener('touchstart', onTouchStart);
+            container.removeEventListener('touchmove', onTouchMove);
             container.removeEventListener('touchend', onTouchEnd);
             window.removeEventListener('keydown', onKeyDown);
         };

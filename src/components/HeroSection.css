@@ -107,8 +107,8 @@
 
 @media (max-width: 900px) {
     .hero { 
-        height: 60vh; 
-        min-height: 400px; 
+        height: 70vh; 
+        min-height: 450px; 
     }
     
     .hero-copy-inner { 
@@ -123,16 +123,35 @@
         font-size: clamp(14px, 2vw, 18px);
     }
     
-    /* Hide side images on mobile */
+    /* Show side images but make them narrower on tablets */
     .hero-side { 
-        display: none; 
+        width: 15%;
+        opacity: 0.8;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        height: 65vh;
+        min-height: 400px;
+    }
+    
+    /* Show side images at 12% width on mobile landscape */
+    .hero-side {
+        width: 12%;
+        opacity: 0.7;
+    }
+    
+    .hero-side img {
+        object-fit: cover;
+        object-position: center;
     }
 }
 
 @media (max-width: 640px) {
     .hero {
-        height: 50vh;
-        min-height: 350px;
+        height: 60vh;
+        min-height: 380px;
     }
 
     .hero-copy {
@@ -151,16 +170,36 @@
     .hero-copy p {
         font-size: clamp(13px, 3vw, 16px);
     }
+    
+    /* Keep side images visible but subtle on small phones */
+    .hero-side {
+        width: 10%;
+        opacity: 0.6;
+    }
 }
 
 @media (max-width: 480px) {
     .hero {
-        height: 45vh;
-        min-height: 320px;
+        height: 55vh;
+        min-height: 350px;
     }
 
     .hero-copy-inner {
         padding: 16px 20px;
         border-radius: 8px;
+    }
+    
+    .hero-copy h1 {
+        font-size: clamp(24px, 8vw, 40px);
+    }
+    
+    .hero-copy p {
+        font-size: clamp(12px, 3.5vw, 15px);
+    }
+    
+    /* Very small side decoration on tiny screens */
+    .hero-side {
+        width: 8%;
+        opacity: 0.5;
     }
 }

@@ -172,7 +172,7 @@
     .post-row { 
         grid-template-columns: 1fr;
         gap: 24px;
-        padding: 16px 12px;
+        padding: 20px 16px;
     }
     
     .post-row.reverse { 
@@ -188,18 +188,20 @@
     }
     
     .post-image img { 
-        max-height: 350px; 
+        max-height: 380px; 
         width: 100%; 
         height: auto; 
+        object-fit: cover;
     }
     
     .post-content { 
-        padding-left: 12px; 
-        padding-right: 12px; 
+        padding-left: 16px; 
+        padding-right: 16px; 
     }
     
     .post-title {
-        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+        line-height: 1.15;
     }
 
     .post-excerpt {
@@ -210,7 +212,7 @@
 
 @media (max-width: 640px) {
     .post-row {
-        padding: 12px 8px;
+        padding: 16px 12px;
         gap: 20px;
     }
 
@@ -220,12 +222,12 @@
     }
 
     .post-image img {
-        max-height: 280px;
+        max-height: 300px;
     }
 
     .post-content {
-        padding-left: 8px;
-        padding-right: 8px;
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
     .post-meta {
@@ -234,14 +236,14 @@
     }
 
     .post-title {
-        font-size: clamp(1.3rem, 5vw, 2rem);
+        font-size: clamp(1.4rem, 5.5vw, 2.2rem);
         margin-bottom: 10px;
         line-height: 1.2;
     }
 
     .post-excerpt {
         font-size: 14px;
-        line-height: 1.6;
+        line-height: 1.65;
         margin-bottom: 16px;
     }
 
@@ -252,8 +254,8 @@
 
 @media (max-width: 480px) {
     .post-row {
-        padding: 10px 6px;
-        gap: 16px;
+        padding: 14px 10px;
+        gap: 18px;
     }
 
     .post-image {
@@ -262,11 +264,11 @@
     }
 
     .post-image img {
-        max-height: 240px;
+        max-height: 260px;
     }
 
     .post-content {
-        padding: 4px 6px;
+        padding: 6px 10px;
     }
 
     .post-meta {
@@ -274,12 +276,13 @@
     }
 
     .post-title {
-        font-size: clamp(1.2rem, 6vw, 1.8rem);
+        font-size: clamp(1.3rem, 6.5vw, 2rem);
     }
 
     .post-excerpt {
         font-size: 13px;
         margin-bottom: 12px;
+        line-height: 1.6;
     }
 
     .post-readmore {
@@ -295,12 +298,37 @@
 }
 
 /* When inside a snap item, ensure content is vertically centered and doesn't overflow */
-.snap-item .post-row { padding: 12px 0; }
-.snap-item .post-content { padding: 8px 12px; }
+.snap-item .post-row { 
+    padding: 16px 0; 
+}
+
+.snap-item .post-content { 
+    padding: 10px 16px; 
+}
+
+@media (max-width: 768px) {
+    .snap-item .post-row {
+        padding: 14px 0;
+    }
+    
+    .snap-item .post-content {
+        padding: 8px 12px;
+    }
+}
 
 @media (max-width: 640px) {
     .snap-item .post-row {
-        padding: 8px 0;
+        padding: 12px 0;
+    }
+    
+    .snap-item .post-content {
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .snap-item .post-row {
+        padding: 10px 0;
     }
     
     .snap-item .post-content {

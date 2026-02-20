@@ -11,6 +11,9 @@ body {
     line-height: 1.6;
     overflow-x: hidden; /* Prevent horizontal scrolling */
     width: 100%;
+    /* Improve mobile scrolling and touch behavior */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
 /* Ensure layout elements fill the viewport so scroll-snap 100vh sections work */
@@ -21,7 +24,15 @@ html, body, #root, .app, main {
 
 /* Improve touch and wheel interactions */
 html, body {
-    touch-action: pinch-zoom pan-y;
+    touch-action: manipulation;
+}
+
+/* Better mobile scroll behavior */
+@media (max-width: 768px) {
+    html, body {
+        touch-action: pan-y pinch-zoom;
+        overscroll-behavior-y: contain;
+    }
 }
 
 a {
