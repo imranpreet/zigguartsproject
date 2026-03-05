@@ -107,6 +107,9 @@
     .article-page {
         grid-template-columns: 1fr;
         padding: 100px 16px 80px;
+        /* Enable proper scrolling on mobile */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
     
     /* Make sidebars stack below the main content */
@@ -795,6 +798,26 @@
 @media (max-width: 640px) {
     .article-page {
         padding: 70px 0 50px;
+        /* Improve mobile scrolling */
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    /* Ensure article container scrolls smoothly on touch */
+    .article-container {
+        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .article-content {
+        touch-action: pan-y;
+    }
+
+    .article-body {
+        /* Improve readability and scrolling */
+        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
     }
 
     .back-to-blog {
@@ -939,6 +962,25 @@
 @media (max-width: 480px) {
     .article-page {
         padding: 65px 0 45px;
+        /* Enhanced mobile scrolling */
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    /* Ensure smooth touch scrolling */
+    .article-container {
+        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .article-content {
+        touch-action: pan-y;
+    }
+
+    .article-body {
+        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
     }
 
     .back-to-blog {
